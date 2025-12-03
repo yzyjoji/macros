@@ -1,0 +1,525 @@
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<style>
+								body {
+									background-color: white; /* Ensure the iframe has a white background */
+								}
+
+								
+							</style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Macros</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-body: #121418;
+            --bg-card: #1e2329;
+            --bg-input: #2b3139;
+            --accent: #F0B90B; /* Binance Gold */
+            --accent-hover: #D0A009;
+            --text-main: #EAECEF;
+            --text-sub: #848E9C;
+            --border: #474d57;
+            --error-bg: rgba(255, 107, 107, 0.1);
+            --error-text: #ff6b6b;
+            --success: #0ECB81;
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            background-color: var(--bg-body);
+            font-family: var(--font);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 40px;
+        }
+
+        /* --- LAYOUT --- */
+        .app-wrapper {
+            width: 100%;
+            max-width: 700px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 5px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .reset-link {
+            font-size: 13px;
+            color: var(--text-sub);
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .reset-link:hover { color: var(--text-main); }
+
+        /* --- TABS --- */
+        .tabs {
+            display: flex;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px;
+            background: var(--bg-card);
+            border: none;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-sub);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background: #252b33;
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .tab-btn:first-child { border-top-left-radius: 8px; }
+        .tab-btn:last-child { border-top-right-radius: 8px; }
+
+        /* --- MAIN CARD --- */
+        .tool-container {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: none;
+        }
+        .tool-container.active { display: block; }
+
+        /* --- INPUTS --- */
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            resize: vertical;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.1);
+        }
+
+        /* --- BUTTONS --- */
+        .primary-btn {
+            width: 100%;
+            background: var(--accent);
+            color: #1e2329;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        .primary-btn:hover { background: var(--accent-hover); }
+        .primary-btn:active { transform: scale(0.99); }
+
+        .copy-btn {
+            background: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .copy-btn:hover { background: var(--border); }
+
+        /* --- RESULTS AREA --- */
+        .result-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- DATA TABLE --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--text-sub);
+            font-weight: 600;
+            width: 33%;
+        }
+
+        td { color: var(--text-main); font-family: 'Roboto Mono', monospace; }
+        
+        .val-highlight { color: var(--accent); font-weight: bold; }
+
+        /* --- ERROR MSG --- */
+        .error-box {
+            background: var(--error-bg);
+            color: var(--error-text);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+            font-weight: 600;
+        }
+
+        /* --- TOAST NOTIFICATION --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--success);
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s, top 0.3s;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notification -->
+    <div id="toast">Text Copied to Clipboard!</div>
+
+    <div class="app-wrapper">
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>CS Macros</h1>
+            <a href="#" class="reset-link" onclick="resetAll()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Reset All
+            </a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tabSlippage', this)">Stop Market Slippage</button>
+            <button class="tab-btn" onclick="switchTab('tabLiquidation', this)">Liquidation</button>
+        </div>
+
+        <!-- SLIPPAGE TOOL -->
+        <div id="tabSlippage" class="tool-container active">
+            <label>Paste Stop Market Data Row</label>
+            <textarea id="slipInput" rows="3" placeholder="Paste the full row with 12+ columns..."></textarea>
+            
+            <div id="slipError" class="error-box"></div>
+            
+            <button class="primary-btn" onclick="processSlippage()">Process Data</button>
+
+            <!-- Result -->
+            <div id="slipResult" class="result-box">
+                <label>Extracted & Calculated Data</label>
+                <table>
+                    <tr>
+                        <th>Quantity</th>
+                        <td id="tQty"></td>
+                    </tr>
+                    <tr>
+                        <th>Total USDT</th>
+                        <td id="tUsdt"></td>
+                    </tr>
+                    <tr>
+                        <th>Stop Price</th>
+                        <td id="tStop" class="val-highlight"></td>
+                    </tr>
+                    <tr>
+                        <th>Executed Price</th>
+                        <td id="tExec" class="val-highlight"></td>
+                    </tr>
+                </table>
+
+                <label>Generated Macro</label>
+                <textarea id="slipOutput" rows="10" readonly></textarea>
+                <button class="copy-btn" onclick="copyToClipboard('slipOutput')">Copy Macro</button>
+            </div>
+        </div>
+
+        <!-- LIQUIDATION TOOL -->
+        <div id="tabLiquidation" class="tool-container">
+            <label>Paste Liquidation Data Row</label>
+            <textarea id="liqInput" rows="3" placeholder="Paste liquidation data row..."></textarea>
+            
+            <div id="liqError" class="error-box"></div>
+            
+            <button class="primary-btn" onclick="processLiquidation()">Process Data</button>
+
+            <!-- Result -->
+            <div id="liqResult" class="result-box">
+                <label>Generated Macro</label>
+                <textarea id="liqOutput" rows="12" readonly></textarea>
+                <button class="copy-btn" onclick="copyToClipboard('liqOutput')">Copy Macro</button>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    // --- UTILITIES ---
+
+    function switchTab(tabId, btn) {
+        // Hide all containers
+        document.querySelectorAll('.tool-container').forEach(el => el.classList.remove('active'));
+        // Deactivate buttons
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        // Activate selection
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function resetAll() {
+        document.querySelectorAll('textarea').forEach(el => el.value = '');
+        document.querySelectorAll('.error-box').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.result-box').forEach(el => el.style.display = 'none');
+    }
+
+    function copyToClipboard(elementId) {
+        const el = document.getElementById(elementId);
+        el.select();
+        el.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        
+        // Show Toast
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        setTimeout(() => { toast.classList.remove("show"); }, 3000);
+    }
+
+    // Helper to format numbers: 12345.678 -> 12,345.67
+    function formatMoney(numStr) {
+        let val = parseFloat(numStr);
+        if(isNaN(val)) return "0.00";
+        return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 8 });
+    }
+
+    // --- SLIPPAGE LOGIC ---
+    function processSlippage() {
+        const input = document.getElementById('slipInput').value.trim();
+        const err = document.getElementById('slipError');
+        const res = document.getElementById('slipResult');
+        
+        err.style.display = 'none';
+        res.style.display = 'none';
+
+        if(!input) {
+            err.textContent = "Please paste data into the text box.";
+            err.style.display = 'block';
+            return;
+        }
+
+        // Universal Splitter: Replace Pipes with space, then split by whitespace
+        const cleanInput = input.replace(/\|/g, ' ');
+        let parts = cleanInput.split(/\s+/).filter(p => p !== "");
+
+        if (parts.length < 12) {
+            err.textContent = `Invalid Data: Found ${parts.length} columns. Need at least 12. Please paste the full row.`;
+            err.style.display = 'block';
+            return;
+        }
+
+        // Extraction
+        // Index 2 = Qty, Index 3 = Total Value
+        const rawQty = parts[2];
+        const rawUsdt = parts[3];
+        
+        // Stop Price Logic: Usually Index 11, or after MARK_PRICE
+        let rawStop = parts[11];
+        const mpIndex = parts.indexOf("MARK_PRICE");
+        if (mpIndex > -1 && parts[mpIndex + 1]) {
+            rawStop = parts[mpIndex + 1];
+        }
+
+        // Calculation
+        const numQty = parseFloat(rawQty.replace(/,/g, ''));
+        const numUsdt = parseFloat(rawUsdt.replace(/,/g, ''));
+        
+        let execPrice = 0;
+        if(numQty !== 0 && !isNaN(numQty) && !isNaN(numUsdt)) {
+            execPrice = numUsdt / numQty;
+        }
+
+        // Formatting for display (Human readable)
+        const dQty = parseFloat(rawQty); // Removes unnecessary zeros
+        const dUsdt = formatMoney(numUsdt);
+        const dStop = formatMoney(rawStop.replace(/,/g, ''));
+        const dExec = formatMoney(execPrice);
+
+        // Update Table
+        document.getElementById('tQty').textContent = dQty;
+        document.getElementById('tUsdt').textContent = dUsdt;
+        document.getElementById('tStop').textContent = dStop;
+        document.getElementById('tExec').textContent = dExec;
+
+        // Generate Text
+        const macro = `The loss occurred on your order because you placed a Stop Market order and not a Stop Limit order.
+
+The estimated PNL you see while placing an order is only estimated and the end result will depend on the market conditions.
+
+The situation you are experiencing with the Stop Market order is due to the way your stop market order works. A Stop Market (SL) order creates a market order to close your position at the current market price when the stop price you set is reached.
+
+In your example, the stop price was set at ${dStop} USDT but the executed price was ${dExec} USDT.
+
+This is due to market movement and the type of order you created. This means that ${dStop} is the price at which the market order will be triggered, not the price at which the order will be executed.
+
+You can find all information about the different order types here;
+https://www.binance.com/en/support/faq/types-of-order-on-binance-futures-360033779452`;
+
+        document.getElementById('slipOutput').value = macro;
+        res.style.display = 'block';
+    }
+
+    // --- LIQUIDATION LOGIC ---
+    function processLiquidation() {
+        const input = document.getElementById('liqInput').value;
+        const err = document.getElementById('liqError');
+        const res = document.getElementById('liqResult');
+
+        err.style.display = 'none';
+        res.style.display = 'none';
+
+        const nums = input.match(/-?\d+(\.\d+)?/g);
+        if (!nums || nums.length < 4) { 
+            err.textContent = "Error: Could not detect 4 valid numbers in the text.";
+            err.style.display = 'block'; 
+            return; 
+        }
+
+        // Format numbers
+        const walletBal = formatMoney(nums[0]);
+        const pnl = formatMoney(nums[1]);
+        const marginBal = formatMoney(nums[2]);
+        const maintMargin = formatMoney(nums[3]);
+
+        const macro = `Thank you very much for your patience, I truly appreciate your kindness.
+
+First, please note that a liquidation is triggered when the margin balance (wallet balance – unrealized PNL) falls below the Maintenance Margin required to keep the position open.
+
+In your case:
+• The required Maintenance Margin was: ${maintMargin} USDT
+• Your wallet balance at the time of liquidation was: ${walletBal} USDT
+• Your unrealized loss on the position was: ${pnl} USDT
+
+This means your margin balance became:
+${marginBal} USDT, which was below the ${maintMargin} USDT needed to maintain the position.
+
+Unfortunately, this triggered an automatic liquidation.
+
+I have thoroughly reviewed this, and the liquidation occurred according to Binance Futures protocols, and there were no abnormalities detected. I understand this is not the outcome you were hoping for, and I am truly sorry for your loss.
+
+Liquidation protocol:
+https://www.binance.com/en/support/faq/detail/360033525271`;
+
+        document.getElementById('liqOutput').value = macro;
+        res.style.display = 'block';
+    }
+
+</script>
+</body>
+</html>
+
+							<script>
+                            	
+							</script>
+                        </body>
+                        </html>
+                    
